@@ -14,11 +14,13 @@
         android:text="Bienvenue" />
 
     <Button
+        android:id="@+id/btnSTART"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Start the Game"/>
 
     <Button
+        android:id="@+id/btnEXIT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="EXIT"/>
