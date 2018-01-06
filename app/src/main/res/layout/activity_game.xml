@@ -11,36 +11,398 @@
         android:layout_height="wrap_content"
         android:text="Numbers 1 to 9 have to be used once and only once"/>
 
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_margin="10dp"
+        android:background="#000000"/>
     <GridLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:padding="15dp"
+        android:background="@drawable/border"
+        android:layout_margin="20dp"
+        android:rowCount="7"
+        android:columnCount="7">
+
+        <!--LIGNE 1 -->
+        <EditText
+            android:id="@+id/edt1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="="/>
+        <TextView
+            android:id="@+id/resLINE1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <!--FIN-->
+
+        <!--LIGNE 2 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_horizontal"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <!--FIN-->
+
+        <!--LIGNE 3 -->
+        <EditText
+            android:id="@+id/edt4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="="/>
+        <TextView
+            android:id="@+id/resLINE2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <!--FIN-->
+
+        <!--LIGNE 4 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_horizontal"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <!--FIN-->
+
+        <!--LIGNE 5 -->
+        <EditText
+            android:id="@+id/edt7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="+"/>
+        <EditText
+            android:id="@+id/edt9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:inputType="number"
+            android:maxLength="1"
+            android:hint="?"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="="/>
+        <TextView
+            android:id="@+id/resLINE3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <!--FIN-->
+
+        <!--LIGNE 6 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center_horizontal"
+            android:text="="/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="="/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text="="/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <!--FIN-->
+
+        <!--LIGNE 7 -->
+        <TextView
+            android:id="@+id/resCOLUMN1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:id="@+id/resCOLUMN2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:id="@+id/resCOLUMN3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:layout_marginRight="15dp"
+            android:text="15"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="15dp"
+            android:text=""/>
+        <!--FIN-->
 
     </GridLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="5dp"
+        android:layout_margin="10dp"
+        android:background="#000000"/>
 
     <GridLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
         android:rowCount="2"
         android:columnCount="2">
         <Button
             android:id="@+id/btnSUBMIT"
             android:layout_width="wrap_content"
+            android:layout_gravity="fill"
             android:layout_height="wrap_content"
             android:text="Submit"/>
         <Button
             android:id="@+id/btnCONTINUE"
             android:layout_width="wrap_content"
+            android:layout_gravity="fill"
             android:layout_height="wrap_content"
             android:text="Continue?"/>
         <Button
             android:id="@+id/btnNEWGAME"
             android:layout_width="wrap_content"
+            android:layout_gravity="fill"
             android:layout_height="wrap_content"
             android:text="New Game"/>
         <Button
             android:id="@+id/btnEXITGAME"
             android:layout_width="wrap_content"
+            android:layout_gravity="fill"
             android:layout_height="wrap_content"
             android:text="Exit Game"/>
     </GridLayout>
+
 </LinearLayout>
