@@ -1,6 +1,8 @@
 package com.example.ibrahim.game_app;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -83,15 +85,31 @@ public class GameActivity extends AppCompatActivity {
         /*----------------------------------------------------------*/
 
 
-        //Remplissage des positions des nombres dans notre Jeu
+        //Positions des nombres(1 à 9) dans notre Jeu
         for(int i=0;i<9;i++){
             int valeurIndex = genIndiceOnce();
             int valeur = numbersAllowed[valeurIndex];
             tabGAME[i] = valeur;
         }
+        sumLINE1 = tabGAME[0]+tabGAME[1]+tabGAME[2];
+        sumLINE2 = tabGAME[3]+tabGAME[4]+tabGAME[5];
+        sumLINE3 = tabGAME[6]+tabGAME[7]+tabGAME[8];
+        sumCOLUMN1 = tabGAME[0]+tabGAME[3]+tabGAME[6];
+        sumCOLUMN2 = tabGAME[1]+tabGAME[4]+tabGAME[7];
+        sumCOLUMN3 = tabGAME[2]+tabGAME[5]+tabGAME[8];
+        result_LINE1.setText(""+sumLINE1);
+        result_LINE2.setText(""+sumLINE2);
+        result_LINE3.setText(""+sumLINE3);
+        result_COLUMN1.setText(""+sumCOLUMN1);
+        result_COLUMN2.setText(""+sumCOLUMN2);
+        result_COLUMN3.setText(""+sumCOLUMN3);
         /*----------------------------------------------------------*/
 
-        //Ajout d'événements sur les différents boutons
+        //au démarrage on rend les boutons "CONTINUE?" et "NEW GAME" non clickables
+        btn_continue.setEnabled(false);
+        btn_newgame.setEnabled(false);
+
+        //Ajout d'événements sur les différents boutons de notre GUI
         btn_submit.setOnClickListener(new Soumettre());
         btn_continue.setOnClickListener(new Continuer());
         btn_newgame.setOnClickListener(new NouveauJeu());
@@ -103,24 +121,68 @@ public class GameActivity extends AppCompatActivity {
     class Soumettre implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            //btn_submit.setEnabled(false);
+            //On vérifie que tous les cases ont bien été remplies
+            if(!edtCELL1.getText().toString().equals("") && !edtCELL2.getText().toString().equals("") &&
+                    !edtCELL3.getText().toString().equals("") && !edtCELL4.getText().toString().equals("") &&
+                    !edtCELL5.getText().toString().equals("") && !edtCELL6.getText().toString().equals("") &&
+                    !edtCELL7.getText().toString().equals("") && !edtCELL8.getText().toString().equals("") &&
+                    !edtCELL9.getText().toString().equals("")){
+                //On vérifie la conformité de nos nombres remplis
+                if(checkNumbers() == 0){//Présence de 0
+                    AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
+                    alertDialog.setTitle("Chiffre Zéro");
+                    alertDialog.setMessage("Le nombre 0 n'est pas autorisé");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else if(checkNumbers() == 1){//Présence de 2 valeurs identiques
+                    AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
+                    alertDialog.setTitle("Valeurs identiques");
+                    alertDialog.setMessage("Il ne doit pas y avoir 2 valeurs identiques");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                }else {//checkNumbers() retourne 2 --> donc tt est OK
 
+                }
+            }else{
+                AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
+                alertDialog.setTitle("Chiffre manquant");
+                alertDialog.setMessage("Il faut remplir toutes les cases");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                alertDialog.show();
+            }
         }
     }
-    //Classe interne gérant le fait de cliquer sur le bouton SUBMIT
+    //Classe interne gérant le fait de cliquer sur le bouton CONTINUE?
     class Continuer implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
         }
     }
-    //Classe interne gérant le fait de cliquer sur le bouton SUBMIT
+    //Classe interne gérant le fait de cliquer sur le bouton NEW GAME
     class NouveauJeu implements View.OnClickListener {
         @Override
         public void onClick(View v) {
 
         }
     }
-    //Classe interne gérant le fait de cliquer sur le bouton SUBMIT
+    //Classe interne gérant le fait de cliquer sur le bouton EXIT GAME
     class ExitGame implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -138,9 +200,38 @@ public class GameActivity extends AppCompatActivity {
                 indicesChoisis.add(val);
             }
             return indice;
-            //Log.i("INDEX",""+indice);
-            //int valeur = numbersAllowed[indice_aleatoire];
-            //int place = rnd.nextInt(9);
-            //tabGAME[place] = valeur;
+    }
+
+    /*méthode pour vérifier que notre remplissage est conforme aux règles
+    * return 0 s'il y'a le nombre 0
+    * return 1 s'il y'a deux valeurs identiques
+    * return 2 si tout est OK
+    * */
+    public int checkNumbers(){
+        int numb1 = Integer.parseInt(edtCELL1.getText().toString());
+        int numb2 = Integer.parseInt(edtCELL2.getText().toString());
+        int numb3 = Integer.parseInt(edtCELL3.getText().toString());
+        int numb4 = Integer.parseInt(edtCELL4.getText().toString());
+        int numb5 = Integer.parseInt(edtCELL5.getText().toString());
+        int numb6 = Integer.parseInt(edtCELL6.getText().toString());
+        int numb7 = Integer.parseInt(edtCELL7.getText().toString());
+        int numb8 = Integer.parseInt(edtCELL8.getText().toString());
+        int numb9 = Integer.parseInt(edtCELL9.getText().toString());
+        int[] tabValues = {numb1,numb2,numb3,numb4,numb5,numb6,numb7,numb8,numb9};
+        //on vérifie la présence du nombre 0 dans ce qu'on a rempli
+        for(int i=0;i<9;i++){
+            if(tabValues[i] == 0){
+                return 0;
+            }
+        }
+        //on vérifie s'il y'a des valeurs dupliquées dans ce qu'on a rempli
+        for(int i=0;i<(9-1);i++){
+            for(int j=i+1;j<9;j++){
+                if(tabValues[i] == tabValues[j]){
+                    return 1;
+                }
+            }
+        }
+        return 2;
     }
 }

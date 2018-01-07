@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Numbers 1 to 9 have to be used once and only once"/>
+        android:text="Num 1 to 9 have to be used once and only once"/>
 
     <View
         android:layout_width="wrap_content"
