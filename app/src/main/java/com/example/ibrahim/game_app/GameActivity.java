@@ -1,10 +1,13 @@
 package com.example.ibrahim.game_app;
 
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -128,43 +131,31 @@ public class GameActivity extends AppCompatActivity {
                     !edtCELL5.getText().toString().equals("") && !edtCELL6.getText().toString().equals("") &&
                     !edtCELL7.getText().toString().equals("") && !edtCELL8.getText().toString().equals("") &&
                     !edtCELL9.getText().toString().equals("")){
-                //On vérifie la conformité de nos nombres remplis
+                //On vérifie la conformité des nombres remplis par rapport aux règles
                 if(checkNumbers() == 0){//Présence de 0
-                    AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
-                    alertDialog.setTitle("Chiffre Zéro");
-                    alertDialog.setMessage("Le nombre 0 n'est pas autorisé");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    afficherDialbox("Chiffre Zéro","Le nombre 0 n'est pas autorisé");
                 }else if(checkNumbers() == 1){//Présence de 2 valeurs identiques
-                    AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
-                    alertDialog.setTitle("Valeurs identiques");
-                    alertDialog.setMessage("Il ne doit pas y avoir 2 valeurs identiques");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
+                    afficherDialbox("Valeurs identiques","Il ne doit pas y avoir 2 valeurs identiques");
                 }else {//checkNumbers() retourne 2 --> donc tt est OK
-
-                }
-            }else{
-                AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
-                alertDialog.setTitle("Chiffre manquant");
-                alertDialog.setMessage("Il faut remplir toutes les cases");
-                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                        new DialogInterface.OnClickListener() {
+                    if(correctAnswers()){//Bonne Réponse
+                        //Les félicitations sont de rigueur
+                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
+                        LayoutInflater inflater = GameActivity.this.getLayoutInflater();
+                        View alertDialogView = inflater.inflate(R.layout.congrats_dialbox, null);
+                        alertDialog.setView(alertDialogView);
+                        alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         });
-                alertDialog.show();
+                        alertDialog.show();
+                    }else{//Mauvaise Réponse
+                        btn_continue.setEnabled(true);
+                        btn_newgame.setEnabled(true);
+                    }
+                }
+            }else{
+                afficherDialbox("Chiffre manquant","Il faut remplir toutes les cases");
             }
         }
     }
@@ -233,5 +224,39 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return 2;
+    }
+
+    //méthode pour créer et afficher une boite de dialogue avec un titre et un message
+    public void afficherDialbox(String titre,String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(GameActivity.this).create();
+        alertDialog.setTitle(titre);
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
+
+    //méthode pour vérifier que l'utilisateur a trouvé la bonne position pour chaque valeur du tableau
+    public boolean correctAnswers(){
+        int numb1 = Integer.parseInt(edtCELL1.getText().toString());
+        int numb2 = Integer.parseInt(edtCELL2.getText().toString());
+        int numb3 = Integer.parseInt(edtCELL3.getText().toString());
+        int numb4 = Integer.parseInt(edtCELL4.getText().toString());
+        int numb5 = Integer.parseInt(edtCELL5.getText().toString());
+        int numb6 = Integer.parseInt(edtCELL6.getText().toString());
+        int numb7 = Integer.parseInt(edtCELL7.getText().toString());
+        int numb8 = Integer.parseInt(edtCELL8.getText().toString());
+        int numb9 = Integer.parseInt(edtCELL9.getText().toString());
+        if(numb1 == tabGAME[0] && numb2 == tabGAME[1] && numb3 == tabGAME[2]
+                && numb4 == tabGAME[3] && numb5 == tabGAME[4] && numb6 == tabGAME[5]
+                && numb7 == tabGAME[6] && numb8 == tabGAME[7] && numb9 == tabGAME[8]){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
