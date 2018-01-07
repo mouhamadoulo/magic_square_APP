@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Game_APP</string>
+    <string name="game_about">
+        The Magic Square game consists, for the user, to position the digits from 1 to 9
+        in the different cells of an array of size 3x3 in order to obtain the sums located
+        at the end of each row and each column.
+    </string>
 </resources>

@@ -8,19 +8,20 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/btnHELP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="HELP : 3"/>
+            android:text="HELP : 5"/>
 
-        <Button
-            android:id="@+id/btnINFO"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="ABOUT THE GAME"/>
+        <ImageView
+            android:id="@+id/imgINFO"
+            android:src="@drawable/about"
+            android:layout_width="60dp"
+            android:layout_height="40dp" />
     </LinearLayout>
 
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class GameActivity extends AppCompatActivity {
     Button btn_newgame;
     Button btn_exitgame;
     Button btn_help;
-    Button btn_info;
+    ImageView img_info;
     /*------------------------*/
     EditText edtCELL1;
     EditText edtCELL2;
@@ -74,7 +75,7 @@ public class GameActivity extends AppCompatActivity {
         btn_newgame = (Button) findViewById(R.id.btnNEWGAME);
         btn_exitgame = (Button) findViewById(R.id.btnEXITGAME);
         btn_help = (Button) findViewById(R.id.btnHELP);
-        btn_info = (Button) findViewById(R.id.btnINFO);
+        img_info = (ImageView) findViewById(R.id.imgINFO);
         /*----------------------------------------------------------*/
         edtCELL1 = (EditText) findViewById(R.id.edt1);
         edtCELL2 = (EditText) findViewById(R.id.edt2);
@@ -125,7 +126,7 @@ public class GameActivity extends AppCompatActivity {
         btn_newgame.setOnClickListener(new NouveauJeu());
         btn_exitgame.setOnClickListener(new ExitGame());
         btn_help.setOnClickListener(new HelpMePlease());
-        btn_info.setOnClickListener(new AboutTheGame());
+        img_info.setOnClickListener(new AboutTheGame());
         /*----------------------------------------------------------*/
     }
 
@@ -259,7 +260,16 @@ public class GameActivity extends AppCompatActivity {
     class AboutTheGame implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            //TODO
+            AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
+            LayoutInflater inflater = GameActivity.this.getLayoutInflater();
+            View alertDialogView = inflater.inflate(R.layout.about_dialbox, null);
+            alertDialog.setView(alertDialogView);
+            alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alertDialog.show();
         }
     }
 
