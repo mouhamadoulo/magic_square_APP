@@ -1,9 +1,8 @@
 package com.example.ibrahim.game_app;
 
-import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +29,12 @@ public class GameActivity extends AppCompatActivity {
     int sumCOLUMN3;
     int[] numbersAllowed = {1,2,3,4,5,6,7,8,9};
     int[] tabGAME = new int[9];
-    Random rnd = new Random();
+    int cptHELP = 5;//on n'a droit qu'à 5 aides
+    Random rnd1 = new Random();
+    Random rnd2 = new Random();
     List indicesChoisis = new ArrayList();
-    int indice;
+    List indicesBTNHELP = new ArrayList();
+    int indice1,indice2;
     /*------------------------*/
 
     //Variables grâce auxquelles on va pouvoir récupérer les composants de notre GUI
@@ -39,6 +42,8 @@ public class GameActivity extends AppCompatActivity {
     Button btn_continue;
     Button btn_newgame;
     Button btn_exitgame;
+    Button btn_help;
+    Button btn_info;
     /*------------------------*/
     EditText edtCELL1;
     EditText edtCELL2;
@@ -68,6 +73,8 @@ public class GameActivity extends AppCompatActivity {
         btn_continue = (Button) findViewById(R.id.btnCONTINUE);
         btn_newgame = (Button) findViewById(R.id.btnNEWGAME);
         btn_exitgame = (Button) findViewById(R.id.btnEXITGAME);
+        btn_help = (Button) findViewById(R.id.btnHELP);
+        btn_info = (Button) findViewById(R.id.btnINFO);
         /*----------------------------------------------------------*/
         edtCELL1 = (EditText) findViewById(R.id.edt1);
         edtCELL2 = (EditText) findViewById(R.id.edt2);
@@ -117,6 +124,8 @@ public class GameActivity extends AppCompatActivity {
         btn_continue.setOnClickListener(new Continuer());
         btn_newgame.setOnClickListener(new NouveauJeu());
         btn_exitgame.setOnClickListener(new ExitGame());
+        btn_help.setOnClickListener(new HelpMePlease());
+        btn_info.setOnClickListener(new AboutTheGame());
         /*----------------------------------------------------------*/
     }
 
@@ -138,6 +147,7 @@ public class GameActivity extends AppCompatActivity {
                     afficherDialbox("Valeurs identiques","Il ne doit pas y avoir 2 valeurs identiques");
                 }else {//checkNumbers() retourne 2 --> donc tt est OK
                     if(correctAnswers()){//Bonne Réponse
+                        btn_newgame.setEnabled(true);
                         //Les félicitations sont de rigueur
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
                         LayoutInflater inflater = GameActivity.this.getLayoutInflater();
@@ -150,6 +160,7 @@ public class GameActivity extends AppCompatActivity {
                         });
                         alertDialog.show();
                     }else{//Mauvaise Réponse
+                        afficherDialbox("Mauvaise Réponse","Vérifier bien la position des nombres");
                         btn_continue.setEnabled(true);
                         btn_newgame.setEnabled(true);
                     }
@@ -163,14 +174,16 @@ public class GameActivity extends AppCompatActivity {
     class Continuer implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            //TODO
         }
     }
     //Classe interne gérant le fait de cliquer sur le bouton NEW GAME
     class NouveauJeu implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-
+            Intent i = new Intent(getApplicationContext(),GameActivity.class);
+            startActivity(i);
+            finish();
         }
     }
     //Classe interne gérant le fait de cliquer sur le bouton EXIT GAME
@@ -180,17 +193,98 @@ public class GameActivity extends AppCompatActivity {
             finish();
         }
     }
+    //Classe interne gérant le fait de cliquer sur le bouton help
+    class HelpMePlease implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            int index = genIndiceForHelp();
+            switch (index){
+                case 0 :
+                    edtCELL1.setText(""+tabGAME[0]);
+                    edtCELL1.setEnabled(false);
+                    edtCELL1.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 1 :
+                    edtCELL2.setText(""+tabGAME[1]);
+                    edtCELL2.setEnabled(false);
+                    edtCELL2.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 2 :
+                    edtCELL3.setText(""+tabGAME[2]);
+                    edtCELL3.setEnabled(false);
+                    edtCELL3.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 3 :
+                    edtCELL4.setText(""+tabGAME[3]);
+                    edtCELL4.setEnabled(false);
+                    edtCELL4.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 4 :
+                    edtCELL5.setText(""+tabGAME[4]);
+                    edtCELL5.setEnabled(false);
+                    edtCELL5.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 5 :
+                    edtCELL6.setText(""+tabGAME[5]);
+                    edtCELL6.setEnabled(false);
+                    edtCELL6.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 6 :
+                    edtCELL7.setText(""+tabGAME[6]);
+                    edtCELL7.setEnabled(false);
+                    edtCELL7.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 7 :
+                    edtCELL8.setText(""+tabGAME[7]);
+                    edtCELL8.setEnabled(false);
+                    edtCELL8.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                case 8 :
+                    edtCELL9.setText(""+tabGAME[8]);
+                    edtCELL9.setEnabled(false);
+                    edtCELL9.setBackgroundColor(getResources().getColor(R.color.green));
+                    break;
+                default:
+                    Log.i("Erreur","Valeur non correspondante");
+                    break;
+            }
+            cptHELP--;
+            btn_help.setText("HELP : "+cptHELP);
+            if(cptHELP == 0){
+                btn_help.setEnabled(false);
+            }
+        }
+    }
+    //Classe interne gérant le fait de cliquer sur le bouton info pour comprendre le but du jeu
+    class AboutTheGame implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            //TODO
+        }
+    }
 
     //méthode pour générer un nombre entier aléatoire entre 0 et 8 (inclus)
     public int genIndiceOnce(){
-            int val = rnd.nextInt(9);
+            int val = rnd1.nextInt(9);
             if(indicesChoisis.contains(val)){
                 genIndiceOnce();
             }else{
-                indice = val;
+                indice1 = val;
                 indicesChoisis.add(val);
             }
-            return indice;
+            return indice1;
+    }
+
+    //méthode pour générer un indice une seule fois (entre 0 et 8)
+    public int genIndiceForHelp(){
+        int val = rnd2.nextInt(9);
+        if(indicesBTNHELP.contains(val)){
+            genIndiceForHelp();
+        }else{
+            indice2 = val;
+            indicesBTNHELP.add(val);
+        }
+        return indice2;
     }
 
     /*méthode pour vérifier que notre remplissage est conforme aux règles
