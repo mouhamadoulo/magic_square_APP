@@ -17,6 +17,14 @@
             android:layout_height="wrap_content"
             android:text="HELP : 5"/>
 
+        <Chronometer
+            android:id="@+id/chrono"
+            android:textSize="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/imgINFO"
             android:src="@drawable/about"

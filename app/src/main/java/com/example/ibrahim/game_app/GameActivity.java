@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class GameActivity extends AppCompatActivity {
     Button btn_exitgame;
     Button btn_help;
     ImageView img_info;
+    Chronometer mychrono;
     /*------------------------*/
     EditText edtCELL1;
     EditText edtCELL2;
@@ -76,6 +78,7 @@ public class GameActivity extends AppCompatActivity {
         btn_exitgame = (Button) findViewById(R.id.btnEXITGAME);
         btn_help = (Button) findViewById(R.id.btnHELP);
         img_info = (ImageView) findViewById(R.id.imgINFO);
+        mychrono = (Chronometer) findViewById(R.id.chrono);
         /*----------------------------------------------------------*/
         edtCELL1 = (EditText) findViewById(R.id.edt1);
         edtCELL2 = (EditText) findViewById(R.id.edt2);
@@ -95,6 +98,8 @@ public class GameActivity extends AppCompatActivity {
         result_COLUMN3 = (TextView) findViewById(R.id.resCOLUMN3);
         /*----------------------------------------------------------*/
 
+        //on démarre le chrono
+        mychrono.start();
 
         //Positions des nombres(1 à 9) dans notre Jeu
         for(int i=0;i<9;i++){
@@ -150,6 +155,7 @@ public class GameActivity extends AppCompatActivity {
                     if(correctAnswers()){//Bonne Réponse
                         btn_newgame.setEnabled(true);
                         //Les félicitations sont de rigueur
+                        mychrono.stop();
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
                         LayoutInflater inflater = GameActivity.this.getLayoutInflater();
                         View alertDialogView = inflater.inflate(R.layout.congrats_dialbox, null);
