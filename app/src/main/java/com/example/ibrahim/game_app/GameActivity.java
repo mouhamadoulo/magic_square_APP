@@ -2,7 +2,10 @@ package com.example.ibrahim.game_app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -37,15 +40,18 @@ public class GameActivity extends AppCompatActivity {
     List indicesChoisis = new ArrayList();
     List indicesBTNHELP = new ArrayList();
     int indice1,indice2;
+    MediaPlayer mymedia1;
+    int nbHELP = 0;
+    int score;
     /*------------------------*/
 
     //Variables grâce auxquelles on va pouvoir récupérer les composants de notre GUI
     Button btn_submit;
-    Button btn_continue;
     Button btn_newgame;
     Button btn_exitgame;
     Button btn_help;
     ImageView img_info;
+    Button btn_scores;
     Chronometer mychrono;
     /*------------------------*/
     EditText edtCELL1;
@@ -73,11 +79,11 @@ public class GameActivity extends AppCompatActivity {
 
         //récupération des composants
         btn_submit = (Button) findViewById(R.id.btnSUBMIT);
-        btn_continue = (Button) findViewById(R.id.btnCONTINUE);
         btn_newgame = (Button) findViewById(R.id.btnNEWGAME);
         btn_exitgame = (Button) findViewById(R.id.btnEXITGAME);
         btn_help = (Button) findViewById(R.id.btnHELP);
         img_info = (ImageView) findViewById(R.id.imgINFO);
+        btn_scores = (Button) findViewById(R.id.btn_scores);
         mychrono = (Chronometer) findViewById(R.id.chrono);
         /*----------------------------------------------------------*/
         edtCELL1 = (EditText) findViewById(R.id.edt1);
@@ -121,17 +127,16 @@ public class GameActivity extends AppCompatActivity {
         result_COLUMN3.setText(""+sumCOLUMN3);
         /*----------------------------------------------------------*/
 
-        //au démarrage on rend les boutons "CONTINUE?" et "NEW GAME" non clickables
-        btn_continue.setEnabled(false);
+        //au démarrage on rend le bouton "NEW GAME" non clickable
         btn_newgame.setEnabled(false);
 
         //Ajout d'événements sur les différents boutons de notre GUI
         btn_submit.setOnClickListener(new Soumettre());
-        btn_continue.setOnClickListener(new Continuer());
         btn_newgame.setOnClickListener(new NouveauJeu());
         btn_exitgame.setOnClickListener(new ExitGame());
         btn_help.setOnClickListener(new HelpMePlease());
         img_info.setOnClickListener(new AboutTheGame());
+        btn_scores.setOnClickListener(new ShowScores());
         /*----------------------------------------------------------*/
     }
 
@@ -139,7 +144,6 @@ public class GameActivity extends AppCompatActivity {
     class Soumettre implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            //btn_submit.setEnabled(false);
             //On vérifie que tous les cases ont bien été remplies
             if(!edtCELL1.getText().toString().equals("") && !edtCELL2.getText().toString().equals("") &&
                     !edtCELL3.getText().toString().equals("") && !edtCELL4.getText().toString().equals("") &&
@@ -154,8 +158,9 @@ public class GameActivity extends AppCompatActivity {
                 }else {//checkNumbers() retourne 2 --> donc tt est OK
                     if(correctAnswers()){//Bonne Réponse
                         btn_newgame.setEnabled(true);
-                        //Les félicitations sont de rigueur
                         mychrono.stop();
+                        score = calculScore();
+                        //Les félicitations sont de rigueur
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
                         LayoutInflater inflater = GameActivity.this.getLayoutInflater();
                         View alertDialogView = inflater.inflate(R.layout.congrats_dialbox, null);
@@ -163,12 +168,19 @@ public class GameActivity extends AppCompatActivity {
                         alertDialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
+                                afficherDialbox("Score","Votre score est de : "+score);
                             }
                         });
                         alertDialog.show();
+                        btn_help.setEnabled(false);
+                        mymedia1 = new MediaPlayer();
+                        mymedia1 = MediaPlayer.create(GameActivity.this, R.raw.applause);
+                        mymedia1.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                        mymedia1.start();
+
+
                     }else{//Mauvaise Réponse
                         afficherDialbox("Mauvaise Réponse","Vérifier bien la position des nombres");
-                        btn_continue.setEnabled(true);
                         btn_newgame.setEnabled(true);
                     }
                 }
@@ -177,11 +189,12 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
-    //Classe interne gérant le fait de cliquer sur le bouton CONTINUE?
-    class Continuer implements View.OnClickListener {
+    //Classe interne gérant le fait de cliquer sur l'image du trophée pour afficher les meilleurs scores
+    class ShowScores implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            //TODO
+            long elap = SystemClock.elapsedRealtime() - mychrono.getBase();
+            Toast.makeText(getApplicationContext(),"Time : "+elap,Toast.LENGTH_SHORT).show();
         }
     }
     //Classe interne gérant le fait de cliquer sur le bouton NEW GAME
@@ -204,6 +217,7 @@ public class GameActivity extends AppCompatActivity {
     class HelpMePlease implements View.OnClickListener {
         @Override
         public void onClick(View v) {
+            nbHELP++;
             int index = genIndiceForHelp();
             switch (index){
                 case 0 :
@@ -262,7 +276,7 @@ public class GameActivity extends AppCompatActivity {
             }
         }
     }
-    //Classe interne gérant le fait de cliquer sur le bouton info pour comprendre le but du jeu
+    //Classe interne gérant le fait de cliquer sur l'image ? pour comprendre le but du jeu
     class AboutTheGame implements View.OnClickListener {
         @Override
         public void onClick(View v) {
@@ -368,5 +382,38 @@ public class GameActivity extends AppCompatActivity {
         }else{
             return false;
         }
+    }
+
+    //méthode de calcul du score de l'utilisateur
+    /**
+     * Le score est calculé en fonction du chrono et du nombre de fois que l'utilisateur
+     * clique sur le bouton HELP pour afficher un nombre
+     */
+    public int calculScore(){
+        int thescore = 100;//par défaut quand on réussit le jeu on a déjà 100 points
+        //Suivant le nombre de fois qu'il clique sur le bouton HELP on lui ajoute des points
+        switch (nbHELP){
+            case 1 :
+                thescore = thescore + 250;
+                break;
+            case 2 :
+                thescore = thescore + 200;
+                break;
+            case 3 :
+                thescore = thescore + 150;
+                break;
+            case 4 :
+                thescore = thescore + 75;
+                break;
+            case 5 :
+                thescore = thescore + 50;
+                break;
+            default:
+                break;
+        }
+        /*if(mychrono){
+
+        }*/
+        return thescore;
     }
 }
