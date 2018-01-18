@@ -2,6 +2,7 @@ package com.example.ibrahim.game_app;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -71,6 +72,11 @@ public class GameActivity extends AppCompatActivity {
     TextView result_COLUMN2;
     TextView result_COLUMN3;
     /*------------------------*/
+
+    //Variables utiles pour manipuler notre base de données
+    private SQLiteDatabase sqlitedb = null;
+    private MaBaseHelper mybasedb = null;
+    /*-----------------------*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +166,7 @@ public class GameActivity extends AppCompatActivity {
                         btn_newgame.setEnabled(true);
                         mychrono.stop();
                         score = calculScore();
+                        mybasedb.addScore(score);
                         //Les félicitations sont de rigueur
                         AlertDialog.Builder alertDialog = new AlertDialog.Builder(GameActivity.this);
                         LayoutInflater inflater = GameActivity.this.getLayoutInflater();
@@ -193,8 +200,7 @@ public class GameActivity extends AppCompatActivity {
     class ShowScores implements View.OnClickListener {
         @Override
         public void onClick(View v) {
-            long elap = SystemClock.elapsedRealtime() - mychrono.getBase();
-            Toast.makeText(getApplicationContext(),"Time : "+elap,Toast.LENGTH_SHORT).show();
+
         }
     }
     //Classe interne gérant le fait de cliquer sur le bouton NEW GAME
@@ -291,6 +297,12 @@ public class GameActivity extends AppCompatActivity {
             });
             alertDialog.show();
         }
+    }
+
+    //méthode pour persister les données dans une base de données SQLite du téléphone
+    public void saveScore(int score){
+        /*mybasedb = new MaBaseHelper(this);
+        sqlitedb = mybasedb.getWritableDatabase();*/
     }
 
     //méthode pour générer un nombre entier aléatoire entre 0 et 8 (inclus)
@@ -391,29 +403,97 @@ public class GameActivity extends AppCompatActivity {
      */
     public int calculScore(){
         int thescore = 100;//par défaut quand on réussit le jeu on a déjà 100 points
-        //Suivant le nombre de fois qu'il clique sur le bouton HELP on lui ajoute des points
-        switch (nbHELP){
-            case 1 :
+        Character c1 = mychrono.getText().charAt(0);//minute de mon chrono
+        Character c2 = mychrono.getText().charAt(1);//minute de mon chrono
+        //Suivant le chrono et le nombre de fois qu'on clique sur le bouton HELP
+        if(c1.charValue() == '0'){
+            if(c2.charValue() == '0'){//si le jeu termine en moins de 1mn
+                thescore = thescore + 750;
+                if(nbHELP == 0){
+                    thescore = thescore + 450;
+                }
+                if(nbHELP == 1){
+                    thescore = thescore + 250;
+                }
+                if(nbHELP == 2){
+                    thescore = thescore + 200;
+                }
+                if(nbHELP == 3){
+                    thescore = thescore + 150;
+                }
+                if(nbHELP == 4){
+                    thescore = thescore + 100;
+                }
+                if(nbHELP == 5){
+                    thescore = thescore + 50;
+                }
+            }
+            if(c2.charValue() == '1'){//si le jeu termine entre 1mn et 2mn
+                thescore = thescore + 550;
+                if(nbHELP == 0){
+                    thescore = thescore + 350;
+                }
+                if(nbHELP == 1){
+                    thescore = thescore + 250;
+                }
+                if(nbHELP == 2){
+                    thescore = thescore + 200;
+                }
+                if(nbHELP == 3){
+                    thescore = thescore + 150;
+                }
+                if(nbHELP == 4){
+                    thescore = thescore + 100;
+                }
+                if(nbHELP == 5){
+                    thescore = thescore + 50;
+                }
+            }
+            if(c2.charValue() == '2'){//si le jeu termine entre 2mn et 3mn
+                thescore = thescore + 350;
+                if(nbHELP == 0){
+                    thescore = thescore + 300;
+                }
+                if(nbHELP == 1){
+                    thescore = thescore + 250;
+                }
+                if(nbHELP == 2){
+                    thescore = thescore + 200;
+                }
+                if(nbHELP == 3){
+                    thescore = thescore + 150;
+                }
+                if(nbHELP == 4){
+                    thescore = thescore + 100;
+                }
+                if(nbHELP == 5){
+                    thescore = thescore + 50;
+                }
+            }
+            if(c2.charValue() == '3'){//si le jeu termine entre 3mn et 4mn
                 thescore = thescore + 250;
-                break;
-            case 2 :
-                thescore = thescore + 200;
-                break;
-            case 3 :
-                thescore = thescore + 150;
-                break;
-            case 4 :
-                thescore = thescore + 75;
-                break;
-            case 5 :
-                thescore = thescore + 50;
-                break;
-            default:
-                break;
+                if(nbHELP == 0){
+                    thescore = thescore + 250;
+                }
+                if(nbHELP == 1){
+                    thescore = thescore + 250;
+                }
+                if(nbHELP == 2){
+                    thescore = thescore + 200;
+                }
+                if(nbHELP == 3){
+                    thescore = thescore + 150;
+                }
+                if(nbHELP == 4){
+                    thescore = thescore + 100;
+                }
+                if(nbHELP == 5){
+                    thescore = thescore + 50;
+                }
+            }
+        }else{
+            thescore = thescore + 200;
         }
-        /*if(mychrono){
-
-        }*/
         return thescore;
     }
 }
